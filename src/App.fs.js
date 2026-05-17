@@ -20,9 +20,7 @@ import { view as view_5 } from "./DeckManager.fs.js";
  * Initialize application from localStorage
  */
 export function init() {
-    const decks = loadDecks();
-    const history = loadHistory();
-    return new Model(decks, history, new ActiveView_11(0, []), 0, new CardSide_4(0, []), empty(), CardFormState_get_Empty(), DeckFormState_get_Empty(), false, undefined, "", empty());
+    return new Model(loadDecks(), loadHistory(), new ActiveView_11(0, []), 0, new CardSide_4(0, []), empty(), CardFormState_get_Empty(), DeckFormState_get_Empty(), false, undefined, "", empty());
 }
 
 function parseTags(input) {
@@ -52,41 +50,29 @@ function updateCardInDeck(deckId, cardId, updater, decks) {
  * Update function
  */
 export function update(msg, model) {
-    let bind$0040, bind$0040_1, bind$0040_2, bind$0040_3, bind$0040_4, bind$0040_5, bind$0040_6, bind$0040_7, bind$0040_8;
+    let bind$0040, bind$0040_1, bind$0040_2, bind$0040_3, bind$0040_4, bind$0040_5, bind$0040_6, bind$0040_7, bind$0040_8, cardId, card;
     switch (msg.tag) {
         case 1: {
             const matchValue = model.ActiveView;
             switch (matchValue.tag) {
                 case 1:
                     return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(0, []), model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-                case 2: {
-                    const deckId_1 = matchValue.fields[0];
-                    return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(1, [deckId_1]), model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-                }
-                case 3: {
-                    const deckId_2 = matchValue.fields[0];
-                    return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(1, [deckId_2]), model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-                }
+                case 2:
+                    return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(1, [matchValue.fields[0]]), model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
+                case 3:
+                    return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(1, [matchValue.fields[0]]), model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
                 default:
                     return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(0, []), model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
             }
         }
-        case 2: {
-            const v = msg.fields[0];
-            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, (bind$0040 = model.DeckForm, new DeckFormState(v, bind$0040.Description, bind$0040.Color, bind$0040.Icon)), model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-        }
-        case 3: {
-            const v_1 = msg.fields[0];
-            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, (bind$0040_1 = model.DeckForm, new DeckFormState(bind$0040_1.Name, v_1, bind$0040_1.Color, bind$0040_1.Icon)), model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-        }
-        case 4: {
-            const v_2 = msg.fields[0];
-            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, (bind$0040_2 = model.DeckForm, new DeckFormState(bind$0040_2.Name, bind$0040_2.Description, v_2, bind$0040_2.Icon)), model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-        }
-        case 5: {
-            const v_3 = msg.fields[0];
-            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, (bind$0040_3 = model.DeckForm, new DeckFormState(bind$0040_3.Name, bind$0040_3.Description, bind$0040_3.Color, v_3)), model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-        }
+        case 2:
+            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, (bind$0040 = model.DeckForm, new DeckFormState(msg.fields[0], bind$0040.Description, bind$0040.Color, bind$0040.Icon)), model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
+        case 3:
+            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, (bind$0040_1 = model.DeckForm, new DeckFormState(bind$0040_1.Name, msg.fields[0], bind$0040_1.Color, bind$0040_1.Icon)), model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
+        case 4:
+            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, (bind$0040_2 = model.DeckForm, new DeckFormState(bind$0040_2.Name, bind$0040_2.Description, msg.fields[0], bind$0040_2.Icon)), model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
+        case 5:
+            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, (bind$0040_3 = model.DeckForm, new DeckFormState(bind$0040_3.Name, bind$0040_3.Description, bind$0040_3.Color, msg.fields[0])), model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
         case 6:
             return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, DeckFormState_get_Empty(), true, undefined, model.SearchQuery, model.SelectedTags);
         case 7: {
@@ -108,8 +94,7 @@ export function update(msg, model) {
             else {
                 const matchValue_2 = model.EditingDeckId;
                 if (matchValue_2 == null) {
-                    const deck = new Deck(newGuid(), name, model.DeckForm.Description.trim(), model.DeckForm.Color, model.DeckForm.Icon, empty(), now());
-                    const newDecks_1 = append(model.Decks, singleton(deck));
+                    const newDecks_1 = append(model.Decks, singleton(new Deck(newGuid(), name, model.DeckForm.Description.trim(), model.DeckForm.Color, model.DeckForm.Icon, empty(), now())));
                     saveDecks(newDecks_1);
                     return new Model(newDecks_1, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, DeckFormState_get_Empty(), false, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
                 }
@@ -129,33 +114,22 @@ export function update(msg, model) {
             }
         }
         case 9: {
-            const id_2 = msg.fields[0];
-            const newDecks_2 = filter((d_5) => (d_5.Id !== id_2), model.Decks);
+            const newDecks_2 = filter((d_5) => (d_5.Id !== msg.fields[0]), model.Decks);
             saveDecks(newDecks_2);
             return new Model(newDecks_2, model.ReviewHistory, new ActiveView_11(0, []), model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
         }
         case 10:
             return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, DeckFormState_get_Empty(), false, undefined, model.SearchQuery, model.SelectedTags);
-        case 11: {
-            const v_4 = msg.fields[0];
-            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, (bind$0040_4 = model.CardForm, new CardFormState(v_4, bind$0040_4.Back, bind$0040_4.CodeSnippet, bind$0040_4.Language, bind$0040_4.Tags)), model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-        }
-        case 12: {
-            const v_5 = msg.fields[0];
-            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, (bind$0040_5 = model.CardForm, new CardFormState(bind$0040_5.Front, v_5, bind$0040_5.CodeSnippet, bind$0040_5.Language, bind$0040_5.Tags)), model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-        }
-        case 13: {
-            const v_6 = msg.fields[0];
-            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, (bind$0040_6 = model.CardForm, new CardFormState(bind$0040_6.Front, bind$0040_6.Back, v_6, bind$0040_6.Language, bind$0040_6.Tags)), model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-        }
-        case 14: {
-            const l = msg.fields[0];
-            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, (bind$0040_7 = model.CardForm, new CardFormState(bind$0040_7.Front, bind$0040_7.Back, bind$0040_7.CodeSnippet, l, bind$0040_7.Tags)), model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-        }
-        case 15: {
-            const v_7 = msg.fields[0];
-            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, (bind$0040_8 = model.CardForm, new CardFormState(bind$0040_8.Front, bind$0040_8.Back, bind$0040_8.CodeSnippet, bind$0040_8.Language, v_7)), model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-        }
+        case 11:
+            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, (bind$0040_4 = model.CardForm, new CardFormState(msg.fields[0], bind$0040_4.Back, bind$0040_4.CodeSnippet, bind$0040_4.Language, bind$0040_4.Tags)), model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
+        case 12:
+            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, (bind$0040_5 = model.CardForm, new CardFormState(bind$0040_5.Front, msg.fields[0], bind$0040_5.CodeSnippet, bind$0040_5.Language, bind$0040_5.Tags)), model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
+        case 13:
+            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, (bind$0040_6 = model.CardForm, new CardFormState(bind$0040_6.Front, bind$0040_6.Back, msg.fields[0], bind$0040_6.Language, bind$0040_6.Tags)), model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
+        case 14:
+            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, (bind$0040_7 = model.CardForm, new CardFormState(bind$0040_7.Front, bind$0040_7.Back, bind$0040_7.CodeSnippet, msg.fields[0], bind$0040_7.Tags)), model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
+        case 15:
+            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, (bind$0040_8 = model.CardForm, new CardFormState(bind$0040_8.Front, bind$0040_8.Back, bind$0040_8.CodeSnippet, bind$0040_8.Language, msg.fields[0])), model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
         case 16: {
             const deckId_3 = msg.fields[0];
             const front = model.CardForm.Front.trim();
@@ -202,11 +176,9 @@ export function update(msg, model) {
             }
         }
         case 17: {
-            const deckId_4 = msg.fields[0];
-            const cardId_2 = msg.fields[1];
             const newDecks_5 = map_1((d_7) => {
-                if (d_7.Id === deckId_4) {
-                    return new Deck(d_7.Id, d_7.Name, d_7.Description, d_7.Color, d_7.Icon, filter((c_3) => (c_3.Id !== cardId_2), d_7.Cards), d_7.CreatedAt);
+                if (d_7.Id === msg.fields[0]) {
+                    return new Deck(d_7.Id, d_7.Name, d_7.Description, d_7.Color, d_7.Icon, filter((c_3) => (c_3.Id !== msg.fields[1]), d_7.Cards), d_7.CreatedAt);
                 }
                 else {
                     return d_7;
@@ -218,17 +190,14 @@ export function update(msg, model) {
         case 18: {
             const matchValue_4 = model.ActiveView;
             if (matchValue_4.tag === 2) {
-                const deckId_5 = matchValue_4.fields[0];
-                return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(1, [deckId_5]), model.CurrentCardIndex, model.CardSide, model.SessionResults, CardFormState_get_Empty(), model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
+                return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(1, [matchValue_4.fields[0]]), model.CurrentCardIndex, model.CardSide, model.SessionResults, CardFormState_get_Empty(), model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
             }
             else {
                 return model;
             }
         }
-        case 19: {
-            const deckId_6 = msg.fields[0];
-            return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(3, [deckId_6]), 0, new CardSide_4(0, []), empty(), model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
-        }
+        case 19:
+            return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(3, [msg.fields[0]]), 0, new CardSide_4(0, []), empty(), model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
         case 20:
             return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, new CardSide_4(1, []), model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
         case 21: {
@@ -241,8 +210,7 @@ export function update(msg, model) {
                     return model;
                 }
                 else {
-                    const deck_2 = deck_1;
-                    const studyCards = getStudySession(20, deck_2.Cards);
+                    const studyCards = getStudySession(20, deck_1.Cards);
                     if (model.CurrentCardIndex < length(studyCards)) {
                         const card_2 = item(model.CurrentCardIndex, studyCards);
                         const updatedCard = updateCard(card_2, difficulty);
@@ -267,75 +235,46 @@ export function update(msg, model) {
         case 23: {
             const matchValue_6 = model.ActiveView;
             if (matchValue_6.tag === 3) {
-                const deckId_8 = matchValue_6.fields[0];
-                return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(1, [deckId_8]), model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
+                return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(1, [matchValue_6.fields[0]]), model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
             }
             else {
                 return new Model(model.Decks, model.ReviewHistory, new ActiveView_11(0, []), model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
             }
         }
-        case 24: {
-            const q = msg.fields[0];
-            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, q, model.SelectedTags);
-        }
+        case 24:
+            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, msg.fields[0], model.SelectedTags);
         case 25: {
             const tag = msg.fields[0];
-            const tags_1 = contains(tag, model.SelectedTags, {
+            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, contains(tag, model.SelectedTags, {
                 Equals: (x, y) => (x === y),
                 GetHashCode: stringHash,
-            }) ? filter((t) => (t !== tag), model.SelectedTags) : cons(tag, model.SelectedTags);
-            return new Model(model.Decks, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, tags_1);
+            }) ? filter((t) => (t !== tag), model.SelectedTags) : cons(tag, model.SelectedTags));
         }
         case 26: {
-            const json = msg.fields[0];
-            const matchValue_7 = importDeck(json);
+            const matchValue_7 = importDeck(msg.fields[0]);
             if (matchValue_7 == null) {
                 return model;
             }
             else {
-                const deck_3 = matchValue_7;
-                const newDecks_7 = append(model.Decks, singleton(deck_3));
+                const newDecks_7 = append(model.Decks, singleton(matchValue_7));
                 saveDecks(newDecks_7);
                 return new Model(newDecks_7, model.ReviewHistory, model.ActiveView, model.CurrentCardIndex, model.CardSide, model.SessionResults, model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
             }
         }
         case 27: {
-            const deckId_9 = msg.fields[0];
-            const matchValue_8 = tryFind((d_9) => (d_9.Id === deckId_9), model.Decks);
+            const matchValue_8 = tryFind((d_9) => (d_9.Id === msg.fields[0]), model.Decks);
             if (matchValue_8 == null) {
                 return model;
             }
             else {
-                const deck_4 = matchValue_8;
-                const json_1 = exportDeck(deck_4);
+                const json_1 = exportDeck(matchValue_8);
                 navigator.clipboard?.writeText(json_1);
                 return model;
             }
         }
         default: {
             const view_1 = msg.fields[0];
-            let cardForm;
-            if (view_1.tag === 2) {
-                if (view_1.fields[1] != null) {
-                    const cardId = view_1.fields[1];
-                    const deckId = view_1.fields[0];
-                    const card = bind((d_1) => tryFind((c) => (c.Id === cardId), d_1.Cards), tryFind((d) => (d.Id === deckId), model.Decks));
-                    if (card == null) {
-                        cardForm = CardFormState_get_Empty();
-                    }
-                    else {
-                        const c_1 = card;
-                        cardForm = CardFormState_FromCard_4CE19D30(c_1);
-                    }
-                }
-                else {
-                    cardForm = CardFormState_get_Empty();
-                }
-            }
-            else {
-                cardForm = model.CardForm;
-            }
-            return new Model(model.Decks, model.ReviewHistory, view_1, model.CurrentCardIndex, model.CardSide, model.SessionResults, cardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
+            return new Model(model.Decks, model.ReviewHistory, view_1, model.CurrentCardIndex, model.CardSide, model.SessionResults, (view_1.tag === 2) ? ((view_1.fields[1] != null) ? ((cardId = view_1.fields[1], (card = bind((d_1) => tryFind((c) => (c.Id === cardId), d_1.Cards), tryFind((d) => (d.Id === view_1.fields[0]), model.Decks)), (card == null) ? CardFormState_get_Empty() : CardFormState_FromCard_4CE19D30(card)))) : CardFormState_get_Empty()) : model.CardForm, model.DeckForm, model.ShowDeckForm, model.EditingDeckId, model.SearchQuery, model.SelectedTags);
         }
     }
 }
@@ -486,25 +425,7 @@ export function view(model, dispatch) {
             let elems_1;
             return append_1(singleton_1(createElement("main", createObj(ofArray([["className", "app-main"], (elems_1 = toList(delay(() => {
                 const matchValue = model.ActiveView;
-                switch (matchValue.tag) {
-                    case 1: {
-                        const deckId = matchValue.fields[0];
-                        return singleton_1(deckDetailView(deckId, model, dispatch));
-                    }
-                    case 2: {
-                        const deckId_1 = matchValue.fields[0];
-                        const cardId = matchValue.fields[1];
-                        return singleton_1(view_2(deckId_1, cardId, model, dispatch));
-                    }
-                    case 3: {
-                        const deckId_2 = matchValue.fields[0];
-                        return singleton_1(view_3(deckId_2, model, dispatch));
-                    }
-                    case 4:
-                        return singleton_1(view_4(model, dispatch));
-                    default:
-                        return singleton_1(view_5(model, dispatch));
-                }
+                return (matchValue.tag === 1) ? singleton_1(deckDetailView(matchValue.fields[0], model, dispatch)) : ((matchValue.tag === 2) ? singleton_1(view_2(matchValue.fields[0], matchValue.fields[1], model, dispatch)) : ((matchValue.tag === 3) ? singleton_1(view_3(matchValue.fields[0], model, dispatch)) : ((matchValue.tag === 4) ? singleton_1(view_4(model, dispatch)) : singleton_1(view_5(model, dispatch)))));
             })), ["children", reactApi.Children.toArray(Array.from(elems_1))])])))), delay(() => {
                 if (model.ActiveView.tag === 3) {
                     return empty_1();

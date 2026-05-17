@@ -1,10 +1,37 @@
+(* Spaced Repetition — SM-2 Algorithm
+   ====================================
+   Based on SuperMemo 2 (SM-2), the algorithm schedules card reviews so
+   that each card is shown just before it would be forgotten, with the
+   gap between reviews growing as recall becomes more reliable.
+
+   Three values are maintained per card (see SRData in Types.fs):
+
+     EaseFactor   — a per-card multiplier (floor 1.3, default 2.5) that
+                    reflects how easy the card is for the learner.
+                    Adjusted after every review: Hard lowers it, Easy
+                    raises it, Good leaves it unchanged.
+
+     Interval     — days until the next review.  Starts at 1 day and
+                    grows by EaseFactor on each successful repetition,
+                    so an easy card with EF 2.5 reviewed today at 8 days
+                    schedules the next review in 20 days.
+
+     Repetitions  — consecutive correct reviews (Again resets to 0).
+                    The first two repetitions use fixed short intervals
+                    (1 day, then 3 days for Good) so the card is
+                    reinforced quickly before EaseFactor-based growth
+                    begins.
+
+   Difficulty ratings map to algorithm adjustments:
+     Again → reset Repetitions to 0, Interval to 0 (due immediately)
+     Hard  → EF -= 0.15, Interval grows by only 1.2×
+     Good  → EF unchanged, Interval grows by EF
+     Easy  → EF += 0.15, Interval grows by EF × 1.3
+*)
 module CodeCards.SpacedRepetition
 
 open System
 open CodeCards.Types
-
-/// SM-2 inspired spaced repetition algorithm
-/// Updates card scheduling based on user's difficulty rating
 
 /// Calculate the new ease factor based on difficulty
 let private newEaseFactor (current: float) (difficulty: Difficulty) =

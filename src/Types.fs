@@ -1,3 +1,23 @@
+(* Domain Model — CodeCards
+   ========================
+   The application is structured around two core entities:
+
+     Deck   — a named collection of flashcards with an icon and color.
+     Card   — a single flashcard with a question (Front), answer (Back),
+              an optional code snippet with syntax-highlighted Language,
+              user-defined Tags, and an SRData record that tracks the
+              card's position in the spaced-repetition schedule.
+
+   Spaced-repetition state (SRData) lives on each Card rather than in a
+   separate store so that decks are self-contained and can be exported or
+   imported as a single JSON blob.
+
+   The Elmish model (Model / Msg) drives the entire UI.  Model holds all
+   mutable application state — deck list, active view, review session
+   progress, and the transient form states used by the deck and card
+   editors.  Msg enumerates every event the UI can produce; the update
+   function (in App.fs) is the sole place state is transformed.
+*)
 module CodeCards.Types
 
 open System

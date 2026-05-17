@@ -19,8 +19,7 @@ function dailyActivity(days, history) {
     const today = date_1(now());
     return toList(delay(() => collect((i) => {
         const date = addDays(today, op_UnaryNegation_Int32(i));
-        const count = length(filter((r) => equals(date_1(r.ReviewedAt), date), history)) | 0;
-        return singleton([date, count]);
+        return singleton([date, length(filter((r) => equals(date_1(r.ReviewedAt), date), history))]);
     }, rangeDouble(days - 1, -1, 0))));
 }
 
@@ -116,11 +115,7 @@ function masteryDistribution(decks) {
                 default:
                     return 0;
             }
-        }, map((tupledArg) => {
-            const level = tupledArg[0];
-            const cards = tupledArg[1];
-            return [level, length(cards)];
-        }, List_groupBy((c) => Mastery_level(c.SRData), allCards, {
+        }, map((tupledArg) => [tupledArg[0], length(tupledArg[1])], List_groupBy((c) => Mastery_level(c.SRData), allCards, {
             Equals: equals_1,
             GetHashCode: safeHash,
         })), {
@@ -145,14 +140,13 @@ function masteryDistribution(decks) {
         }, groups))), ["children", reactApi.Children.toArray(Array.from(elems))])]))), createElement("div", createObj(ofArray([["className", "mastery-legend"], (elems_2 = toList(delay(() => collect((matchValue_1) => {
             let elems_1, arg_3;
             const level_3 = matchValue_1[0];
-            const count_1 = matchValue_1[1] | 0;
             return singleton(createElement("div", createObj(ofArray([["className", "legend-item"], (elems_1 = [createElement("div", {
                 className: "legend-dot",
                 style: {
                     backgroundColor: Mastery_color(level_3),
                 },
             }), createElement("span", {
-                children: (arg_3 = Mastery_label(level_3), toText(printf("%s: %d"))(arg_3)(count_1)),
+                children: (arg_3 = Mastery_label(level_3), toText(printf("%s: %d"))(arg_3)(matchValue_1[1])),
             })], ["children", reactApi.Children.toArray(Array.from(elems_1))])]))));
         }, groups))), ["children", reactApi.Children.toArray(Array.from(elems_2))])])))], ["children", reactApi.Children.toArray(Array.from(elems_3))])])));
     }
@@ -174,22 +168,17 @@ function accuracyBreakdown(history) {
             children: "Review Accuracy (30 days)",
         }), createElement("div", createObj(ofArray([["className", "accuracy-bars"], (elems_2 = toList(delay(() => collect((diff) => {
             let elems_1, elems;
-            const count = defaultArg(map_1((tuple) => tuple[1], tryFind((tupledArg) => {
-                const d = tupledArg[0];
-                return equals_1(d, diff);
-            }, groups)), 0) | 0;
+            const count = defaultArg(map_1((tuple) => tuple[1], tryFind((tupledArg) => equals_1(tupledArg[0], diff), groups)), 0) | 0;
             const pct = (count / total) * 100;
             const patternInput = (diff.tag === 2) ? ["Good", "#3b82f6"] : ((diff.tag === 1) ? ["Hard", "#f59e0b"] : ((diff.tag === 0) ? ["Again", "#ef4444"] : ["Easy", "#22c55e"]));
-            const label = patternInput[0];
-            const color = patternInput[1];
             return singleton(createElement("div", createObj(ofArray([["className", "accuracy-row"], (elems_1 = [createElement("span", {
                 className: "accuracy-label",
-                children: label,
+                children: patternInput[0],
             }), createElement("div", createObj(ofArray([["className", "accuracy-bar-track"], (elems = [createElement("div", {
                 className: "accuracy-bar-fill",
                 style: {
                     width: pct + "%",
-                    backgroundColor: color,
+                    backgroundColor: patternInput[1],
                 },
             })], ["children", reactApi.Children.toArray(Array.from(elems))])]))), createElement("span", {
                 className: "accuracy-count",

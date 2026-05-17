@@ -65,8 +65,7 @@ function cardPreview(form) {
  */
 export function view(deckId, cardId, model, dispatch) {
     let elems_5, elems, elems_1, elems_2, elems_3, elems_4;
-    const deck = tryFind((d) => (d.Id === deckId), model.Decks);
-    const deckName = defaultArg(map_1((d_1) => d_1.Name, deck), "Unknown");
+    const deckName = defaultArg(map_1((d_1) => d_1.Name, tryFind((d) => (d.Id === deckId), model.Decks)), "Unknown");
     const isEditing = cardId != null;
     const canSave = (model.CardForm.Front.trim() !== "") && (model.CardForm.Back.trim() !== "");
     return createElement("div", createObj(ofArray([["className", "card-editor-page"], (elems_5 = [createElement("button", {

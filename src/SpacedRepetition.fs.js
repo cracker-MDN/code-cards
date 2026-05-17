@@ -1,14 +1,13 @@
 import { max } from "./fable_modules/fable-library-js.4.24.0/Double.js";
 import { op_Subtraction, compare, now as now_1, addDays } from "./fable_modules/fable-library-js.4.24.0/Date.js";
 import { Mastery_level, Card, SRData as SRData_1 } from "./Types.fs.js";
-import { truncate, length, sum, map, isEmpty, sortBy, filter } from "./fable_modules/fable-library-js.4.24.0/List.js";
+import { truncate, length, map, sum, isEmpty, sortBy, filter } from "./fable_modules/fable-library-js.4.24.0/List.js";
 import { totalHours, totalMinutes, totalDays } from "./fable_modules/fable-library-js.4.24.0/TimeSpan.js";
 import { comparePrimitives } from "./fable_modules/fable-library-js.4.24.0/Util.js";
 import { printf, toText } from "./fable_modules/fable-library-js.4.24.0/String.js";
 
 function newEaseFactor(current, difficulty) {
-    const adjustment = (difficulty.tag === 1) ? -0.15 : ((difficulty.tag === 2) ? 0 : ((difficulty.tag === 3) ? 0.15 : -0.8));
-    return max(1.3, current + adjustment);
+    return max(1.3, current + ((difficulty.tag === 1) ? -0.15 : ((difficulty.tag === 2) ? 0 : ((difficulty.tag === 3) ? 0.15 : -0.8))));
 }
 
 function newInterval(sr, difficulty) {
@@ -61,8 +60,7 @@ export function updateCard(card, difficulty) {
     const sr = card.SRData;
     const ef = newEaseFactor(sr.EaseFactor, difficulty);
     const interval = newInterval(sr, difficulty);
-    const reps = newRepetitions(sr.Repetitions, difficulty) | 0;
-    return new Card(card.Id, card.Front, card.Back, card.CodeSnippet, card.Language, card.Tags, new SRData_1(interval, ef, reps, addDays(now_1(), interval), now_1()), card.CreatedAt);
+    return new Card(card.Id, card.Front, card.Back, card.CodeSnippet, card.Language, card.Tags, new SRData_1(interval, ef, newRepetitions(sr.Repetitions, difficulty), addDays(now_1(), interval), now_1()), card.CreatedAt);
 }
 
 /**
@@ -78,10 +76,7 @@ export function dueCards(cards) {
  */
 export function sortByUrgency(cards) {
     const now = now_1();
-    return sortBy((c) => {
-        const overdue = totalDays(op_Subtraction(now, c.SRData.NextReview));
-        return -overdue;
-    }, cards, {
+    return sortBy((c) => -totalDays(op_Subtraction(now, c.SRData.NextReview)), cards, {
         Compare: comparePrimitives,
     });
 }
@@ -90,8 +85,7 @@ export function sortByUrgency(cards) {
  * Calculate the estimated next review time for display
  */
 export function nextReviewLabel(sr) {
-    const now = now_1();
-    const diff = op_Subtraction(sr.NextReview, now);
+    const diff = op_Subtraction(sr.NextReview, now_1());
     if (sr.Repetitions === 0) {
         return "New card";
     }
@@ -128,7 +122,7 @@ export function masteryPercentage(cards) {
         return 0;
     }
     else {
-        const scores = map((c) => {
+        return (sum(map((c) => {
             const matchValue = Mastery_level(c.SRData);
             switch (matchValue.tag) {
                 case 1:
@@ -140,8 +134,7 @@ export function masteryPercentage(cards) {
                 default:
                     return 0;
             }
-        }, cards);
-        return (sum(scores, {
+        }, cards), {
             GetZero: () => 0,
             Add: (x, y) => (x + y),
         }) / length(cards)) * 100;

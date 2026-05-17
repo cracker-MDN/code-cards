@@ -10,24 +10,19 @@ import { masteryPercentage, dueCards } from "./SpacedRepetition.fs.js";
 
 function masteryBadges(cards) {
     let elems;
-    const counts = map((tupledArg) => {
-        const level = tupledArg[0];
-        const cs = tupledArg[1];
-        return [level, length(cs)];
-    }, List_groupBy((c) => Mastery_level(c.SRData), cards, {
+    const counts = map((tupledArg) => [tupledArg[0], length(tupledArg[1])], List_groupBy((c) => Mastery_level(c.SRData), cards, {
         Equals: equals,
         GetHashCode: safeHash,
     }));
     return createElement("div", createObj(ofArray([["className", "mastery-badges"], (elems = toList(delay(() => collect((matchValue) => {
         let arg_1;
         const level_1 = matchValue[0];
-        const count = matchValue[1] | 0;
         return singleton(createElement("span", {
             className: "mastery-badge",
             style: {
                 backgroundColor: Mastery_color(level_1),
             },
-            children: (arg_1 = Mastery_label(level_1), toText(printf("%d %s"))(count)(arg_1)),
+            children: (arg_1 = Mastery_label(level_1), toText(printf("%d %s"))(matchValue[1])(arg_1)),
         }));
     }, counts))), ["children", reactApi.Children.toArray(Array.from(elems))])])));
 }

@@ -66,20 +66,12 @@ function Token_$reflection() {
 }
 
 function tokenize(lang, code) {
-    let c, c_1, c_2, c_3, c_4, c_5, c_6, c_7, c_8, c_9, c_10, c_11;
+    let c_1, c_4, c_7, c_10;
     const keywords = Keywords_forLanguage(lang);
     let tokens = empty_1();
     let i = 0;
     const chars = code.split("");
     const len = chars.length | 0;
-    const peek = () => {
-        if (i < len) {
-            return item(i, chars);
-        }
-        else {
-            return undefined;
-        }
-    };
     const advance = () => {
         i = ((i + 1) | 0);
     };
@@ -102,7 +94,7 @@ function tokenize(lang, code) {
                 if (equals(lang, new Language(1, []))) {
                     matchResult = 3;
                 }
-                else if ((c = matchValue, isDigit(c))) {
+                else if (isDigit(matchValue)) {
                     matchResult = 4;
                     c_14 = matchValue;
                 }
@@ -110,10 +102,10 @@ function tokenize(lang, code) {
                     matchResult = 5;
                     c_16 = matchValue;
                 }
-                else if ((c_2 = matchValue, contains(c_2, "(){}[]<>.,;:=+-*/%&|!?@^~".split(""), {
+                else if (contains(matchValue, "(){}[]<>.,;:=+-*/%&|!?@^~".split(""), {
                     Equals: (x, y) => (x === y),
                     GetHashCode: stringHash,
-                }))) {
+                })) {
                     matchResult = 6;
                     c_18 = matchValue;
                 }
@@ -127,7 +119,7 @@ function tokenize(lang, code) {
                 if (!equals(lang, new Language(0, []))) {
                     matchResult = 1;
                 }
-                else if ((c_3 = matchValue, isDigit(c_3))) {
+                else if (isDigit(matchValue)) {
                     matchResult = 4;
                     c_14 = matchValue;
                 }
@@ -135,10 +127,10 @@ function tokenize(lang, code) {
                     matchResult = 5;
                     c_16 = matchValue;
                 }
-                else if ((c_5 = matchValue, contains(c_5, "(){}[]<>.,;:=+-*/%&|!?@^~".split(""), {
+                else if (contains(matchValue, "(){}[]<>.,;:=+-*/%&|!?@^~".split(""), {
                     Equals: (x_1, y_1) => (x_1 === y_1),
                     GetHashCode: stringHash,
-                }))) {
+                })) {
                     matchResult = 6;
                     c_18 = matchValue;
                 }
@@ -152,7 +144,7 @@ function tokenize(lang, code) {
                 if (((i + 1) < len) && (item(i + 1, chars) === "/")) {
                     matchResult = 2;
                 }
-                else if ((c_6 = matchValue, isDigit(c_6))) {
+                else if (isDigit(matchValue)) {
                     matchResult = 4;
                     c_14 = matchValue;
                 }
@@ -160,10 +152,10 @@ function tokenize(lang, code) {
                     matchResult = 5;
                     c_16 = matchValue;
                 }
-                else if ((c_8 = matchValue, contains(c_8, "(){}[]<>.,;:=+-*/%&|!?@^~".split(""), {
+                else if (contains(matchValue, "(){}[]<>.,;:=+-*/%&|!?@^~".split(""), {
                     Equals: (x_2, y_2) => (x_2 === y_2),
                     GetHashCode: stringHash,
-                }))) {
+                })) {
                     matchResult = 6;
                     c_18 = matchValue;
                 }
@@ -174,7 +166,7 @@ function tokenize(lang, code) {
                 break;
             }
             default:
-                if ((c_9 = matchValue, isDigit(c_9))) {
+                if (isDigit(matchValue)) {
                     matchResult = 4;
                     c_14 = matchValue;
                 }
@@ -182,10 +174,10 @@ function tokenize(lang, code) {
                     matchResult = 5;
                     c_16 = matchValue;
                 }
-                else if ((c_11 = matchValue, contains(c_11, "(){}[]<>.,;:=+-*/%&|!?@^~".split(""), {
+                else if (contains(matchValue, "(){}[]<>.,;:=+-*/%&|!?@^~".split(""), {
                     Equals: (x_3, y_3) => (x_3 === y_3),
                     GetHashCode: stringHash,
-                }))) {
+                })) {
                     matchResult = 6;
                     c_18 = matchValue;
                 }
@@ -271,47 +263,22 @@ export function render(language, code) {
         const tokens = tokenize(language, code);
         return createElement("pre", createObj(ofArray([["className", "code-block"], (elems_1 = [createElement("code", createObj(singleton_1((elems = toList(delay(() => collect((token) => {
             const matchValue = token;
-            switch (matchValue.tag) {
-                case 1: {
-                    const s_1 = matchValue.fields[0];
-                    return singleton(createElement("span", {
-                        className: "tok-string",
-                        children: s_1,
-                    }));
-                }
-                case 2: {
-                    const s_2 = matchValue.fields[0];
-                    return singleton(createElement("span", {
-                        className: "tok-comment",
-                        children: s_2,
-                    }));
-                }
-                case 3: {
-                    const s_3 = matchValue.fields[0];
-                    return singleton(createElement("span", {
-                        className: "tok-number",
-                        children: s_3,
-                    }));
-                }
-                case 4: {
-                    const s_4 = matchValue.fields[0];
-                    return singleton(createElement("span", {
-                        className: "tok-punct",
-                        children: s_4,
-                    }));
-                }
-                case 5: {
-                    const s_5 = matchValue.fields[0];
-                    return singleton(s_5);
-                }
-                default: {
-                    const s = matchValue.fields[0];
-                    return singleton(createElement("span", {
-                        className: "tok-keyword",
-                        children: s,
-                    }));
-                }
-            }
+            return (matchValue.tag === 1) ? singleton(createElement("span", {
+                className: "tok-string",
+                children: matchValue.fields[0],
+            })) : ((matchValue.tag === 2) ? singleton(createElement("span", {
+                className: "tok-comment",
+                children: matchValue.fields[0],
+            })) : ((matchValue.tag === 3) ? singleton(createElement("span", {
+                className: "tok-number",
+                children: matchValue.fields[0],
+            })) : ((matchValue.tag === 4) ? singleton(createElement("span", {
+                className: "tok-punct",
+                children: matchValue.fields[0],
+            })) : ((matchValue.tag === 5) ? singleton(matchValue.fields[0]) : singleton(createElement("span", {
+                className: "tok-keyword",
+                children: matchValue.fields[0],
+            }))))));
         }, tokens))), ["children", reactApi.Children.toArray(Array.from(elems))]))))], ["children", reactApi.Children.toArray(Array.from(elems_1))])])));
     }
 }

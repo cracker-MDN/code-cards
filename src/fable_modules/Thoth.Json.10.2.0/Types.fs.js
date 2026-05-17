@@ -68,8 +68,7 @@ export function Util_Cache$1__GetOrAdd_43981464(__, key, factory) {
         outArg = v;
     })), outArg];
     if (matchValue[0]) {
-        const x = matchValue[1];
-        return x;
+        return matchValue[1];
     }
     else {
         const x_1 = factory();

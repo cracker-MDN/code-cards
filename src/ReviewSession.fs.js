@@ -11,11 +11,10 @@ import { render } from "./CodeHighlight.fs.js";
 
 function progressBar(current, total, color) {
     let elems;
-    const pct = (total === 0) ? 0 : ((current / total) * 100);
     return createElement("div", createObj(ofArray([["className", "review-progress"], (elems = [createElement("div", {
         className: "review-progress-bar",
         style: {
-            width: pct + "%",
+            width: ((total === 0) ? 0 : ((current / total) * 100)) + "%",
             backgroundColor: color,
         },
     }), createElement("span", {
@@ -74,28 +73,22 @@ function sessionComplete(results, deck, dispatch) {
     }), createElement("p", {
         className: "complete-stats",
         children: toText(printf("%d/%d correct (%.0f%%)"))(correct)(total)(pct),
-    }), createElement("div", createObj(ofArray([["className", "result-breakdown"], (elems_1 = toList(delay(() => {
-        const groups = List_countBy((r_1) => r_1.Difficulty, results, {
-            Equals: equals,
-            GetHashCode: safeHash,
-        });
-        return collect((matchValue) => {
-            let elems;
-            const diff = matchValue[0];
-            const count = matchValue[1] | 0;
-            const patternInput = (diff.tag === 1) ? ["Hard", "#f59e0b"] : ((diff.tag === 2) ? ["Good", "#3b82f6"] : ((diff.tag === 3) ? ["Easy", "#22c55e"] : ["Again", "#ef4444"]));
-            const label = patternInput[0];
-            const color = patternInput[1];
-            return singleton(createElement("div", createObj(ofArray([["className", "result-item"], (elems = [createElement("div", {
-                className: "result-dot",
-                style: {
-                    backgroundColor: color,
-                },
-            }), createElement("span", {
-                children: toText(printf("%s: %d"))(label)(count),
-            })], ["children", reactApi.Children.toArray(Array.from(elems))])]))));
-        }, groups);
-    })), ["children", reactApi.Children.toArray(Array.from(elems_1))])]))), createElement("div", createObj(ofArray([["className", "complete-actions"], (elems_2 = toList(delay(() => append(singleton(createElement("button", {
+    }), createElement("div", createObj(ofArray([["className", "result-breakdown"], (elems_1 = toList(delay(() => collect((matchValue) => {
+        let elems;
+        const diff = matchValue[0];
+        const patternInput = (diff.tag === 1) ? ["Hard", "#f59e0b"] : ((diff.tag === 2) ? ["Good", "#3b82f6"] : ((diff.tag === 3) ? ["Easy", "#22c55e"] : ["Again", "#ef4444"]));
+        return singleton(createElement("div", createObj(ofArray([["className", "result-item"], (elems = [createElement("div", {
+            className: "result-dot",
+            style: {
+                backgroundColor: patternInput[1],
+            },
+        }), createElement("span", {
+            children: toText(printf("%s: %d"))(patternInput[0])(matchValue[1]),
+        })], ["children", reactApi.Children.toArray(Array.from(elems))])]))));
+    }, List_countBy((r_1) => r_1.Difficulty, results, {
+        Equals: equals,
+        GetHashCode: safeHash,
+    })))), ["children", reactApi.Children.toArray(Array.from(elems_1))])]))), createElement("div", createObj(ofArray([["className", "complete-actions"], (elems_2 = toList(delay(() => append(singleton(createElement("button", {
         className: "btn btn-primary btn-large",
         children: "Back to Deck",
         onClick: (_arg) => {

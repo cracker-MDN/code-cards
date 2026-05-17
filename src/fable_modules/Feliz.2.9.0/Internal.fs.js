@@ -103,10 +103,8 @@ export function useCallbackRef(callback) {
 export function forwardRef(render) {
     const forwardRefType = reactApi.forwardRef((props, ref) => render([props, ref]));
     return (tupledArg) => {
-        const props_1 = tupledArg[0];
-        const ref_1 = tupledArg[1];
-        const propsObj = Object.assign({}, props_1);
-        propsObj.ref = ref_1;
+        const propsObj = Object.assign({}, tupledArg[0]);
+        propsObj.ref = tupledArg[1];
         return reactApi.createElement(forwardRefType, propsObj);
     };
 }
@@ -115,10 +113,8 @@ export function forwardRefWithName(name, render) {
     const forwardRefType = reactApi.forwardRef((props, ref) => render([props, ref]));
     render.displayName = name;
     return (tupledArg) => {
-        const props_1 = tupledArg[0];
-        const ref_1 = tupledArg[1];
-        const propsObj = Object.assign({}, props_1);
-        propsObj.ref = ref_1;
+        const propsObj = Object.assign({}, tupledArg[0]);
+        propsObj.ref = tupledArg[1];
         return reactApi.createElement(forwardRefType, propsObj);
     };
 }

@@ -12,8 +12,8 @@ export function Encode_language(l) {
 }
 
 export function Encode_srData(sr) {
-    let matchValue, dt;
-    return object([["interval", sr.Interval], ["easeFactor", sr.EaseFactor], ["repetitions", sr.Repetitions], ["nextReview", datetime(sr.NextReview)], ["lastReviewed", (matchValue = sr.LastReviewed, (matchValue == null) ? nil : ((dt = matchValue, datetime(dt))))]]);
+    let matchValue;
+    return object([["interval", sr.Interval], ["easeFactor", sr.EaseFactor], ["repetitions", sr.Repetitions], ["nextReview", datetime(sr.NextReview)], ["lastReviewed", (matchValue = sr.LastReviewed, (matchValue == null) ? nil : datetime(matchValue))]]);
 }
 
 export function Encode_card(c) {
@@ -88,8 +88,7 @@ export function loadDecks() {
             return undefined;
         }
         else {
-            const d = matchValue.fields[0];
-            return d;
+            return matchValue.fields[0];
         }
     }, load("codecards_decks")), empty());
 }
@@ -108,8 +107,7 @@ export function loadHistory() {
             return undefined;
         }
         else {
-            const h = matchValue.fields[0];
-            return h;
+            return matchValue.fields[0];
         }
     }, load("codecards_history")), empty());
 }

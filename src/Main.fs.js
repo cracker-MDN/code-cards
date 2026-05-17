@@ -18,53 +18,52 @@ export function AppComponent() {
     const model_1 = patternInput[0];
     const dispatch = patternInput[1];
     useEffectWithDeps(() => {
-        const handler = (e) => {
-            if (model_1.ActiveView.tag === 3) {
-                const matchValue_1 = e.key;
-                switch (matchValue_1) {
-                    case " ":
-                    case "Enter": {
-                        if (equals(model_1.CardSide, new CardSide(0, []))) {
-                            e.preventDefault();
-                            dispatch(new Msg(20, []));
-                        }
-                        break;
-                    }
-                    case "1": {
-                        if (equals(model_1.CardSide, new CardSide(1, []))) {
-                            dispatch(new Msg(21, [new Difficulty(0, [])]));
-                        }
-                        break;
-                    }
-                    case "2": {
-                        if (equals(model_1.CardSide, new CardSide(1, []))) {
-                            dispatch(new Msg(21, [new Difficulty(1, [])]));
-                        }
-                        break;
-                    }
-                    case "3": {
-                        if (equals(model_1.CardSide, new CardSide(1, []))) {
-                            dispatch(new Msg(21, [new Difficulty(2, [])]));
-                        }
-                        break;
-                    }
-                    case "4": {
-                        if (equals(model_1.CardSide, new CardSide(1, []))) {
-                            dispatch(new Msg(21, [new Difficulty(3, [])]));
-                        }
-                        break;
-                    }
-                    case "Escape": {
-                        dispatch(new Msg(23, []));
-                        break;
-                    }
-                    default:
-                        undefined;
-                }
-            }
-        };
         const wrappedHandler = (arg_2) => {
-            handler(arg_2);
+            ((e) => {
+                if (model_1.ActiveView.tag === 3) {
+                    const matchValue_1 = e.key;
+                    switch (matchValue_1) {
+                        case " ":
+                        case "Enter": {
+                            if (equals(model_1.CardSide, new CardSide(0, []))) {
+                                e.preventDefault();
+                                dispatch(new Msg(20, []));
+                            }
+                            break;
+                        }
+                        case "1": {
+                            if (equals(model_1.CardSide, new CardSide(1, []))) {
+                                dispatch(new Msg(21, [new Difficulty(0, [])]));
+                            }
+                            break;
+                        }
+                        case "2": {
+                            if (equals(model_1.CardSide, new CardSide(1, []))) {
+                                dispatch(new Msg(21, [new Difficulty(1, [])]));
+                            }
+                            break;
+                        }
+                        case "3": {
+                            if (equals(model_1.CardSide, new CardSide(1, []))) {
+                                dispatch(new Msg(21, [new Difficulty(2, [])]));
+                            }
+                            break;
+                        }
+                        case "4": {
+                            if (equals(model_1.CardSide, new CardSide(1, []))) {
+                                dispatch(new Msg(21, [new Difficulty(3, [])]));
+                            }
+                            break;
+                        }
+                        case "Escape": {
+                            dispatch(new Msg(23, []));
+                            break;
+                        }
+                        default:
+                            undefined;
+                    }
+                }
+            })(arg_2);
         };
         document.addEventListener("keydown", wrappedHandler);
         return {
