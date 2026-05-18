@@ -76,7 +76,8 @@
         .deck-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .deck-card { background: var(--bg-card); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: transform 0.2s; }
         .deck-card:hover { transform: translateY(-2px); }
-        .deck-card-header { padding: 16px; display: flex; justify-content: space-between; align-items: flex-start; }
+        .deck-card-header { padding: 16px; display: flex; justify-content: space-between; align-items: flex-start; position: relative; }
+        .due-count-badge { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.35); backdrop-filter: blur(4px); color: white; padding: 2px 10px; border-radius: 10px; font-size: 0.65rem; font-weight: 700; white-space: nowrap; pointer-events: none; }
         .deck-icon { font-size: 2rem; }
         .deck-card-actions { display: flex; gap: 4px; }
         .deck-card-body { padding: 0 16px 16px; }

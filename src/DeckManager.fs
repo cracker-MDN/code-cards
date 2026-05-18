@@ -59,6 +59,11 @@ let private deckCard (deck: Deck) (dispatch: Msg -> unit) =
                             ]
                         ]
                     ]
+                    if dueCount > 0 then
+                        Html.span [
+                            prop.className "due-count-badge"
+                            prop.text (sprintf "%d due today" dueCount)
+                        ]
                 ]
             ]
             Html.div [

@@ -28,7 +28,7 @@ function masteryBadges(cards) {
 }
 
 function deckCard(deck, dispatch) {
-    let elems_5, elems_1, elems, elems_4;
+    let elems_5, elems_1, elems_4;
     const totalCards = length(deck.Cards) | 0;
     const dueCount = length(dueCards(deck.Cards)) | 0;
     const mastery = masteryPercentage(deck.Cards);
@@ -36,26 +36,32 @@ function deckCard(deck, dispatch) {
         dispatch(new Msg(0, [new ActiveView(1, [deck.Id])]));
     }], (elems_5 = [createElement("div", createObj(ofArray([["className", "deck-card-header"], ["style", {
         backgroundColor: deck.Color,
-    }], (elems_1 = [createElement("span", {
+    }], (elems_1 = toList(delay(() => append(singleton(createElement("span", {
         className: "deck-icon",
         children: deck.Icon,
-    }), createElement("div", createObj(ofArray([["className", "deck-card-actions"], (elems = [createElement("button", {
-        className: "btn-icon-light",
-        children: "✎",
-        title: "Edit deck",
-        onClick: (e) => {
-            e.stopPropagation();
-            dispatch(new Msg(7, [deck.Id]));
-        },
-    }), createElement("button", {
-        className: "btn-icon-light btn-delete-light",
-        children: "×",
-        title: "Delete deck",
-        onClick: (e_1) => {
-            e_1.stopPropagation();
-            dispatch(new Msg(9, [deck.Id]));
-        },
-    })], ["children", reactApi.Children.toArray(Array.from(elems))])])))], ["children", reactApi.Children.toArray(Array.from(elems_1))])]))), createElement("div", createObj(ofArray([["className", "deck-card-body"], (elems_4 = toList(delay(() => append(singleton(createElement("h3", {
+    })), delay(() => {
+        let elems;
+        return append(singleton(createElement("div", createObj(ofArray([["className", "deck-card-actions"], (elems = [createElement("button", {
+            className: "btn-icon-light",
+            children: "✎",
+            title: "Edit deck",
+            onClick: (e) => {
+                e.stopPropagation();
+                dispatch(new Msg(7, [deck.Id]));
+            },
+        }), createElement("button", {
+            className: "btn-icon-light btn-delete-light",
+            children: "×",
+            title: "Delete deck",
+            onClick: (e_1) => {
+                e_1.stopPropagation();
+                dispatch(new Msg(9, [deck.Id]));
+            },
+        })], ["children", reactApi.Children.toArray(Array.from(elems))])])))), delay(() => ((dueCount > 0) ? singleton(createElement("span", {
+            className: "due-count-badge",
+            children: toText(printf("%d due today"))(dueCount),
+        })) : empty())));
+    })))), ["children", reactApi.Children.toArray(Array.from(elems_1))])]))), createElement("div", createObj(ofArray([["className", "deck-card-body"], (elems_4 = toList(delay(() => append(singleton(createElement("h3", {
         className: "deck-name",
         children: deck.Name,
     })), delay(() => append(singleton(createElement("p", {
