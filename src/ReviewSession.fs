@@ -243,5 +243,20 @@ let view (deckId: Guid) (model: Model) (dispatch: Msg -> unit) =
                                     Html.span [ prop.className "tag"; prop.text tag ]
                             ]
                         ]
+
+                    // Keyboard shortcut hints
+                    Html.div [
+                        prop.className "keyboard-hints"
+                        prop.children [
+                            Html.span [ prop.className "kbd-hint"; prop.text "Space" ]
+                            Html.span [ prop.className "kbd-sep"; prop.text "= flip" ]
+                            Html.span [ prop.className "kbd-divider"; prop.text "·" ]
+                            Html.span [ prop.className "kbd-hint"; prop.text "1–4" ]
+                            Html.span [ prop.className "kbd-sep"; prop.text "= rate" ]
+                            Html.span [ prop.className "kbd-divider"; prop.text "·" ]
+                            Html.span [ prop.className "kbd-hint"; prop.text "Esc" ]
+                            Html.span [ prop.className "kbd-sep"; prop.text "= end" ]
+                        ]
+                    ]
                 ]
             ]

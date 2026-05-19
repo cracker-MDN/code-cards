@@ -110,7 +110,7 @@ function sessionComplete(results, deck, dispatch) {
  * Main review view
  */
 export function view(deckId, model, dispatch) {
-    let elems_2, elems_1, elems_3, elems_9, elems;
+    let elems_2, elems_1, elems_3, elems_10, elems;
     const deck = tryFind((d) => (d.Id === deckId), model.Decks);
     if (deck != null) {
         const deck_1 = deck;
@@ -138,7 +138,7 @@ export function view(deckId, model, dispatch) {
         else {
             const card = item(model.CurrentCardIndex, studyCards);
             const mastery = Mastery_level(card.SRData);
-            return createElement("div", createObj(ofArray([["className", "review-page"], (elems_9 = toList(delay(() => {
+            return createElement("div", createObj(ofArray([["className", "review-page"], (elems_10 = toList(delay(() => {
                 let elems_4;
                 return append(singleton(createElement("div", createObj(ofArray([["className", "review-header"], (elems_4 = [createElement("button", {
                     className: "btn-back",
@@ -184,13 +184,40 @@ export function view(deckId, model, dispatch) {
                         },
                     })), delay(() => {
                         let elems_8;
-                        return !isEmpty(card.Tags) ? singleton(createElement("div", createObj(ofArray([["className", "card-tags"], (elems_8 = toList(delay(() => map((tag) => createElement("span", {
+                        return append(!isEmpty(card.Tags) ? singleton(createElement("div", createObj(ofArray([["className", "card-tags"], (elems_8 = toList(delay(() => map((tag) => createElement("span", {
                             className: "tag",
                             children: tag,
-                        }), card.Tags))), ["children", reactApi.Children.toArray(Array.from(elems_8))])])))) : empty();
+                        }), card.Tags))), ["children", reactApi.Children.toArray(Array.from(elems_8))])])))) : empty(), delay(() => {
+                            let elems_9;
+                            return singleton(createElement("div", createObj(ofArray([["className", "keyboard-hints"], (elems_9 = [createElement("span", {
+                                className: "kbd-hint",
+                                children: "Space",
+                            }), createElement("span", {
+                                className: "kbd-sep",
+                                children: "= flip",
+                            }), createElement("span", {
+                                className: "kbd-divider",
+                                children: "·",
+                            }), createElement("span", {
+                                className: "kbd-hint",
+                                children: "1–4",
+                            }), createElement("span", {
+                                className: "kbd-sep",
+                                children: "= rate",
+                            }), createElement("span", {
+                                className: "kbd-divider",
+                                children: "·",
+                            }), createElement("span", {
+                                className: "kbd-hint",
+                                children: "Esc",
+                            }), createElement("span", {
+                                className: "kbd-sep",
+                                children: "= end",
+                            })], ["children", reactApi.Children.toArray(Array.from(elems_9))])]))));
+                        }));
                     }))));
                 }))))));
-            })), ["children", reactApi.Children.toArray(Array.from(elems_9))])])));
+            })), ["children", reactApi.Children.toArray(Array.from(elems_10))])])));
         }
     }
     else {
