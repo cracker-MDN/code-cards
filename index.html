@@ -237,6 +237,15 @@
         .empty-state p { color: var(--text-secondary); }
         .empty-hint { font-size: 0.82rem; margin-top: 4px; }
 
+        /* View fade-in animation */
+        @keyframes viewFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .app-main > * {
+            animation: viewFadeIn 0.25s ease both;
+        }
+
         @media (max-width: 480px) {
             .deck-grid { grid-template-columns: 1fr; }
             .fab { right: 20px; }
