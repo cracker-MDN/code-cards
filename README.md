@@ -4,7 +4,7 @@ An interactive flashcard application designed for learning programming concepts,
 
 ## Try it Live
 
-👉 **[https://cracker-MDN.github.io/code-cards/](https://cracker-MDN.github.io/code-cards/)**
+👉 **[https://cracker-mdn.github.io/code-cards/](https://cracker-mdn.github.io/code-cards/)**
 
 ## Screenshots
 
