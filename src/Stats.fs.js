@@ -188,6 +188,34 @@ function accuracyBreakdown(history) {
     }
 }
 
+function streakBanner(streak) {
+    let elems_3, elems, elems_2;
+    const message = (streak === 0) ? "Study today to start your streak!" : ((streak === 1) ? "Great start — study again tomorrow!" : ((streak < 7) ? "Keep the momentum going!" : ((streak < 30) ? "You’re on fire — don’t break it now!" : "Legendary dedication. Keep it up!")));
+    return createElement("div", createObj(ofArray([["className", (streak === 0) ? "streak-banner streak-none" : ((streak < 7) ? "streak-banner streak-active" : ((streak < 30) ? "streak-banner streak-fire" : "streak-banner streak-legendary"))], (elems_3 = [createElement("div", {
+        className: "streak-flame-icon",
+        children: "🔥",
+    }), createElement("div", createObj(ofArray([["className", "streak-main"], (elems = [createElement("div", {
+        className: "streak-number",
+        children: int32ToString(streak),
+    }), createElement("div", {
+        className: "streak-label",
+        children: "day streak",
+    }), createElement("div", {
+        className: "streak-msg",
+        children: message,
+    })], ["children", reactApi.Children.toArray(Array.from(elems))])]))), createElement("div", createObj(ofArray([["className", "streak-milestones"], (elems_2 = toList(delay(() => collect((matchValue) => {
+        let elems_1;
+        const days = matchValue[0] | 0;
+        return singleton(createElement("div", createObj(ofArray([["className", (streak >= days) ? "streak-milestone unlocked" : "streak-milestone locked"], ["title", toText(printf("%d-day milestone"))(days)], (elems_1 = [createElement("div", {
+            className: "milestone-icon",
+            children: matchValue[1],
+        }), createElement("div", {
+            className: "milestone-days",
+            children: toText(printf("%dd"))(days),
+        })], ["children", reactApi.Children.toArray(Array.from(elems_1))])]))));
+    }, [[3, "🥉"], [7, "🥈"], [30, "🥇"]]))), ["children", reactApi.Children.toArray(Array.from(elems_2))])])))], ["children", reactApi.Children.toArray(Array.from(elems_3))])])));
+}
+
 /**
  * Main stats view
  */
@@ -203,7 +231,7 @@ export function view(model, _dispatch) {
     const daily = dailyActivity(14, model.ReviewHistory);
     return createElement("div", createObj(ofArray([["className", "stats-page"], (elems_2 = [createElement("h2", {
         children: "Study Statistics",
-    }), createElement("div", createObj(ofArray([["className", "stat-cards"], (elems = [statCard("Total Cards", int32ToString(totalCards), "📚", "#6366f1"), statCard("Reviews Today", int32ToString(todayReviews), "📝", "#3b82f6"), statCard("Study Streak", toText(printf("%d days"))(streak), "🔥", "#f59e0b"), statCard("All Reviews", int32ToString(totalReviews), "📊", "#22c55e")], ["children", reactApi.Children.toArray(Array.from(elems))])]))), createElement("div", createObj(ofArray([["className", "chart-section"], (elems_1 = [createElement("h3", {
+    }), streakBanner(streak), createElement("div", createObj(ofArray([["className", "stat-cards"], (elems = [statCard("Total Cards", int32ToString(totalCards), "📚", "#6366f1"), statCard("Reviews Today", int32ToString(todayReviews), "📝", "#3b82f6"), statCard("Study Streak", toText(printf("%d days"))(streak), "🔥", "#f59e0b"), statCard("All Reviews", int32ToString(totalReviews), "📊", "#22c55e")], ["children", reactApi.Children.toArray(Array.from(elems))])]))), createElement("div", createObj(ofArray([["className", "chart-section"], (elems_1 = [createElement("h3", {
         children: "Last 14 Days",
     }), activityChart(daily)], ["children", reactApi.Children.toArray(Array.from(elems_1))])]))), masteryDistribution(model.Decks), accuracyBreakdown(model.ReviewHistory)], ["children", reactApi.Children.toArray(Array.from(elems_2))])])));
 }

@@ -203,6 +203,27 @@
         .chart-section { margin-bottom: 24px; }
         .chart-section h3 { font-size: 0.95rem; margin-bottom: 10px; }
 
+        /* Study streak banner */
+        .streak-banner { border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; display: flex; align-items: center; gap: 20px; }
+        .streak-none { background: var(--bg-card); }
+        .streak-active { background: linear-gradient(135deg, #78350f 0%, #b45309 100%); }
+        .streak-fire { background: linear-gradient(135deg, #b45309 0%, #d97706 100%); }
+        .streak-legendary { background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%); }
+        .streak-flame-icon { font-size: 2.8rem; flex-shrink: 0; line-height: 1; }
+        .streak-main { flex: 1; }
+        .streak-number { font-size: 2.8rem; font-weight: 800; line-height: 1; color: white; }
+        .streak-label { font-size: 0.88rem; color: rgba(255,255,255,0.75); font-weight: 600; margin-top: 2px; }
+        .streak-msg { font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-top: 4px; }
+        .streak-none .streak-number { color: var(--text-primary); }
+        .streak-none .streak-label { color: var(--text-secondary); }
+        .streak-none .streak-msg { color: var(--text-secondary); }
+        .streak-milestones { display: flex; flex-direction: column; gap: 6px; }
+        .streak-milestone { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; }
+        .streak-milestone.locked { opacity: 0.3; }
+        .milestone-icon { font-size: 1rem; line-height: 1; }
+        .milestone-days { color: rgba(255,255,255,0.85); font-weight: 600; }
+        .streak-none .milestone-days { color: var(--text-secondary); }
+
         /* Activity chart */
         .activity-chart { margin: 12px 0; overflow-x: auto; }
         .activity-bars { display: flex; gap: 4px; align-items: flex-end; height: 140px; }

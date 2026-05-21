@@ -208,6 +208,48 @@ let private accuracyBreakdown (history: ReviewResult list) =
             ]
         ]
 
+/// Prominent study streak banner shown at the top of the stats page
+let private streakBanner (streak: int) =
+    let bannerClass =
+        if streak = 0 then "streak-banner streak-none"
+        elif streak < 7 then "streak-banner streak-active"
+        elif streak < 30 then "streak-banner streak-fire"
+        else "streak-banner streak-legendary"
+    let message =
+        if streak = 0 then "Study today to start your streak!"
+        elif streak = 1 then "Great start — study again tomorrow!"
+        elif streak < 7 then "Keep the momentum going!"
+        elif streak < 30 then "You’re on fire — don’t break it now!"
+        else "Legendary dedication. Keep it up!"
+    Html.div [
+        prop.className bannerClass
+        prop.children [
+            Html.div [ prop.className "streak-flame-icon"; prop.text "\U0001F525" ]
+            Html.div [
+                prop.className "streak-main"
+                prop.children [
+                    Html.div [ prop.className "streak-number"; prop.text (string streak) ]
+                    Html.div [ prop.className "streak-label"; prop.text "day streak" ]
+                    Html.div [ prop.className "streak-msg"; prop.text message ]
+                ]
+            ]
+            Html.div [
+                prop.className "streak-milestones"
+                prop.children [
+                    for (days, emoji) in [ (3, "\U0001F949"); (7, "\U0001F948"); (30, "\U0001F947") ] do
+                        Html.div [
+                            prop.className (if streak >= days then "streak-milestone unlocked" else "streak-milestone locked")
+                            prop.title (sprintf "%d-day milestone" days)
+                            prop.children [
+                                Html.div [ prop.className "milestone-icon"; prop.text emoji ]
+                                Html.div [ prop.className "milestone-days"; prop.text (sprintf "%dd" days) ]
+                            ]
+                        ]
+                ]
+            ]
+        ]
+    ]
+
 /// Main stats view
 let view (model: Model) (_dispatch: Msg -> unit) =
     let totalCards = model.Decks |> List.sumBy (fun d -> List.length d.Cards)
@@ -223,6 +265,9 @@ let view (model: Model) (_dispatch: Msg -> unit) =
         prop.className "stats-page"
         prop.children [
             Html.h2 [ prop.text "Study Statistics" ]
+
+            // Streak banner
+            streakBanner streak
 
             // Summary cards
             Html.div [
